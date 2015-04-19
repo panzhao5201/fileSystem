@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>文件上传</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/jquery.fileupload.css">
+<link rel="stylesheet" href="css/blueimp-gallery.min.css">
+<link rel="stylesheet" href="css/jquery.fileupload-ui.css">
+</head>
+<body>
+	<div class="container">
+		<br>
+		<form id="fileupload" action="fileSystem/files" method="POST"
+			enctype="multipart/form-data">
+			<div class="row fileupload-buttonbar">
+				<span class="btn btn-default fileinput-button"> 
+					<i class="glyphicon glyphicon-plus"></i> <span>添加文件...</span> 
+					<input type="file" name="file" multiple>
+				</span>
+				<button class="btn btn-success upload-start"> 
+					<i class="glyphicon glyphicon-plus"></i> <span>开始上传</span> 
+				</button>
+			</div>
+			<div class="files-list">
+				
+			</div>
+		</form>
+		<br>
+	</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/vendor/jquery.ui.widget.js"></script>
+<script src="js/jquery.iframe-transport.js"></script>
+<script src="js/jquery.fileupload.js"></script>
+<script>
+	$(function() {
+		'use strict';
+		$('#fileupload').fileupload({
+			autoUpload: false,
+			singleFileUploads: false,
+			limitMultiFileUploads: 3,//限制文件数量
+			limitMultiFileUploadSize: 104857600,//不超过100M
+			limitMultiFileUploadSizeOverhead: 34857600,//单个文件不超过30M
+			sequentialUploads: true,//按顺序上传
+			limitConcurrentUploads: 3//并发数 
+		});
+		
+		//添加文件到队列
+		$('#fileupload').bind('fileuploadadd' , function(e,data){
+			console.log('fileuploadadd');
+			console.log(data.files);
+			$.each(data.files, function(index, file){
+				$('<p/>').text(file.name).appendTo('.files-list');
+			});
+			
+			console.log($('#fileupload'));
+		});
+		
+		//上传完成
+		$('#fileupload').bind('fileuploaddone' , function(e,data){
+			$.each(data.result.files, function(index, file) {
+				$('<p/>').text(file.name).appendTo(document.body);
+			});
+		});
+		
+		//异常处理
+		$('#fileupload').bind('fileuploadfail' , function(e,data){
+			alert('出错，查看控制台');
+			console.log(data);
+		});
+		
+		
+		$('#fileupload').bind('fileuploadsubmit', function (e, data){
+			alert('提交');
+			console.log('submit');
+			data.submit();
+		});
+		//开始上传
+		/* $('.upload-start').bind('click', function(){
+			$('#fileupload').submit();
+		}); */
+	});
+</script>
+</body>
+</html>

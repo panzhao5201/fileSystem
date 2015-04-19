@@ -1,0 +1,16 @@
+{
+  "name": "",
+  "version": "0.0.0",
+  "authors": [
+    "panzhao <panzhaov5@163.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
